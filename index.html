@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>色彩永不褪色 - 初二（5）班 & 初二（6）班</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(120deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 Q50,20 100,0 L100,100 Q50,80 0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+            position: relative;
+        }
+        
+        .class-name {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            margin: 0 10px 10px;
+            background: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+        }
+        
+        .tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .tab.active {
+            background: #1a2a6c;
+            color: white;
+            border-color: #0d1b4a;
+        }
+        
+        .tab.disabled {
+            background: #e0e0e0;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
+        .content {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        .comments-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .comment-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 5px solid #b21f1f;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        
+        .comment-card::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 4rem;
+            color: rgba(178, 31, 31, 0.1);
+            font-family: Georgia, serif;
+        }
+        
+        .comment-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #444;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .comment-info {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px dashed #eee;
+            padding-top: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(120deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(178, 31, 31, 0.3);
+        }
+        
+        .palette {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .color {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .color1 { background: #1a2a6c; }
+        .color2 { background: #b21f1f; }
+        .color3 { background: #fdbb2d; }
+        .color4 { background: #8A2BE2; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #777;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #e1e5eb;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .real-time-clock {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification.success {
+            border-left: 4px solid #28a745;
+        }
+        
+        .notification.error {
+            border-left: 4px solid #dc3545;
+        }
+        
+        .notification.warning {
+            border-left: 4px solid #ffc107;
+        }
+        
+        .art-elements {
+            position: absolute;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .brush-stroke {
+            position: absolute;
+            width: 200px;
+            height: 30px;
+            background: rgba(178, 31, 31, 0.1);
+            border-radius: 15px;
+            transform: rotate(-30deg);
+        }
+        
+        .palette-icon {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(253, 187, 45, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: rgba(253, 187, 45, 0.3);
+        }
+        
+        .paint-splash {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(138,43,226,0.1) 0%, transparent 70%);
+        }
+        
+        .class-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: #1a2a6c;
+            color: white;
+            font-size: 0.8rem;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin: 0 0 10px 0;
+                width: 100%;
+            }
+            
+            .real-time-clock {
+                top: 10px;
+                left: 10px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+            width: 350px;
+            max-width: 90vw;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .music-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(120deg, #1a2a6c, #b21f1f);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .music-btn.small {
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
+        }
+        
+        .music-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .progress-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 100%;
+        }
+        
+        #progress-bar {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+        
+        #progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #1a2a6c;
+            cursor: pointer;
+        }
+        
+        #current-time, #duration {
+            font-size: 0.8rem;
+            color: #555;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        #volume-slider {
+            width: 80px;
+            height: 5px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #1a2a6c;
+            cursor: pointer;
+        }
+        
+        .playlist-dropdown {
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 10px;
+            padding: 10px;
+        }
+        
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .playlist-header h4 {
+            margin: 0;
+            color: #1a2a6c;
+        }
+        
+        #playlist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #playlist li {
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        #playlist li:hover {
+            background: #f0f4ff;
+        }
+        
+        #playlist li.playing {
+            background: #e6f0ff;
+            color: #1a2a6c;
+            font-weight: bold;
+        }
+        
+        .mode-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #1a2a6c;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media (max-width: 400px) {
+            .music-player {
+                width: 300px;
+                padding: 10px;
+            }
+            
+            .progress-container {
+                min-width: calc(100% - 20px);
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="art-elements">
+        <div class="brush-stroke" style="top: 10%; left: 5%;"></div>
+        <div class="brush-stroke" style="top: 80%; left: 80%; transform: rotate(45deg); background: rgba(26,42,108,0.1);"></div>
+        <div class="palette-icon" style="top: 15%; right: 10%;"><i class="fas fa-palette"></i></div>
+        <div class="paint-splash" style="top: 70%; left: 15%;"></div>
+        <div class="paint-splash" style="top: 40%; right: 20%; background: radial-gradient(circle, rgba(178,31,31,0.1) 0%, transparent 70%);"></div>
+    </div>
+    
+    <div class="real-time-clock">
+        <i class="fas fa-clock"></i> <span id="real-time"></span>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="palette">
+                <div class="color color1"></div>
+                <div class="color color2"></div>
+                <div class="color color3"></div>
+                <div class="color color4"></div>
+            </div>
+            <h1>色彩永不褪色</h1>
+            <div class="subtitle">致我们敬爱的美术老师</div>
+            <div class="class-name">初二（5）班 & 初二（6）班全体同学</div>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="home">主网站</div>
+            <div class="tab disabled" data-tab="feedback">匿名评价</div>
+            <div class="tab disabled" data-tab="admin">管理后台</div>
+        </div>
+        
+        <div id="home" class="content active">
+            <h2><i class="fas fa-heart"></i> 同学们的祝福与评价</h2>
+            <p class="subtitle">以下是同学们对美术老师的匿名留言，感谢您两年来的教导！</p>
+            
+            <div class="comments-container" id="comments-container">
+                <div class="comment-card">
+                    <p class="comment-text">老师你是我见过的最好的美术老师🥰</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师谢谢你 祝您健健康康</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">祝老师以后越来越好🌹</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">祝老师日后身体健康福星高照</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">感谢您两年来的教导</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师您好！在您的教导下我学到了很多知识，比如一些历史故事、一些历史建筑和一些绘画知识等等。感谢这两年来您对我们的教导。愿老师永远身体健康！桃李满天下！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">令公桃李满天下，何用堂前更种花</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">希望老师平安喜乐，老师教的很好人也好</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">感谢老师这两年的悉心教导。您教会了我们很多知识，您的课堂是无价的珍宝，会在我们的青春中闪闪发亮。退休不是终点，而是新篇的开始，愿您悠然享岁月，潇洒度余生！希望您身体健康，万事如意，天天开心，心想事成！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">亲爱的美术老师，感谢您这两年的教导，您教得很好。"新竹高于旧竹枝，全凭老干为扶持。"祝你身体健康！桃李满天下！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师您好呀！虽然我画功笨拙，但您教会我画"艺术没有对错"，在这两年的美术里您是我见最温暖的老师，感恩老师两年相伴，祝老师艺海常新，时光温柔，平安喜乐，岁岁皆安！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师，在这两年里，是您一直教我们怎么去画，怎么去欣赏，在这里我很想说一声谢谢您！您的教诲如春风化雨，滋润了我们的心田。愿您桃李满天下，芬芳传四方，身体健康！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-17</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">亲爱的老师，在您即将开启人生新篇章之际，我们满怀感激与不舍，向您献上最真挚的祝福。课堂上，您用画笔勾勒出五彩斑斓的世界，用色彩诠释着生活的美好。您的教诲如春风化雨，滋润着我们心中对艺术的热爱。每一笔、每一划，都倾注着您对美术的执着与热情，也点燃了我们对创作的渴望。感谢您多年来的辛勤付出与无私奉献。您不仅传授给我们绘画的技巧，更教会我们如何用艺术的眼光去观察世界，用美好的心灵去感悟生活。在您的悉心指导下，我们从懵懂走向成熟，从青涩迈向自信。您的教诲将永远铭刻在我们心中，成为我们人生道路上最宝贵的财富。如今，您即将告别讲台，迎来属于自己的悠闲时光。愿您的退休生活如您笔下的画卷一般，绚丽多彩。愿您在每一个阳光灿烂的午后，都能沉浸在艺术的海洋中，继续追逐自己的梦想。愿您在闲暇时光里，尽情享受生活的美好，与家人共度幸福时光。您就像那永不褪色的画笔，在我们的心中留下浓墨重彩的一笔。无论时光如何流转，您的恩情我们永远铭记。衷心祝愿您退休生活充满欢乐与温馨，身体健康，心情愉悦。愿您在未来的日子里，依旧能够用您的艺术之光，照亮自己，温暖他人。亲爱的老师，感谢您为我们所做的一切。您的退休不是终点，而是一个新的起点。愿您在新的旅程中，继续绽放属于自己的光彩。祝您退休快乐，幸福美满！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-18</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">亲爱的美术老师，在这两年的初中生活中，您教会了我很多，也给予了我许多鼓励和支持，让我发现了自己的优点，最后也祝您身体健康，万事如意！！！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">敬爱的老师，您如明灯照亮我们前行的路，如春风温暖我们求知的心。愿您在未来的日子里，生活充满阳光，事业一路辉煌，快乐永随身旁！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">亲爱的老师，您的教诲如繁星璀璨，照亮我们成长的天空。祝您拥有无尽的喜悦，健康与您常伴，事事顺心如意，幸福永驻心间！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师希望你永远健康！不再受头痛或者其他各种病的困扰！🙃</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-20</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">"徐行千里，不忘师恩，是您用智慧的光芒，照亮我们前进的路"</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-20</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">亲爱的美术老师，您的教诲如春风化雨，滋润了我们的心田。感谢您为教育事业的辛勤付出，愿您的退休生活如诗如画，享受每一个温馨时刻。</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">5班</span></span>
+                        <span>2025-06-21</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">天下谁人不识君</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">感觉您是一个特别好的老师，感谢您这两年对我们的悉心教导！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师，希望您不再受病痛的折磨，幸福健康过好每一天</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">在千万人中相遇是您与我们806班的缘分 很感谢您的细心教学 祝您安康顺遂平安喜乐</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">敬爱的老师衷心感谢您这学年来的辛勤付出与悉心教导！在您的课堂上，我不仅学到了丰富的知识，更感受到了您对教育的热爱与对学生的关怀。然后就是老师哈哈…您说您记性不好 看来是真的———您一节课至少拿我的作品（画）两次 虽然我知道我画的很好哈哈哈 🤓🤓谢谢您对我的肯定对我的表扬 我很开心 在这特别的时刻，衷心祝愿您退休生活幸福美满、健康顺遂！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">您的谆谆教诲如春风似瑞雨铭记我心。祝老师身体健康，生活愉快。</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师，您用画笔勾勒世界万象，用色彩点燃艺术梦想。课堂上，您的每一次示范都是对美的精准诠释，让我领略到线条与色彩交织的魅力。您的耐心指导，如明灯照亮我在艺术道路上的迷茫。愿您在艺术的海洋里继续乘风破浪，绘就更多绚烂画卷，生活如您笔下的作品般精彩纷呈!</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师退休快乐（管理员重新编辑）</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">三尺讲台，一支粉笔\n两鬓的苍苍白发映照了您对教育事业奉献\n铅笔跃然纸上绘出了您教学生涯一幕幕不可忘怀的回忆\n调色盘中的水冲淡了颜料也冲淡了年龄却冲不淡我们对您的感激\n桃李成蹊春自老\n犹抱余香在案头\n祝您身体健康 万事如意 桃李满天下</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师感谢您这两年以来为我们的付出，祝您长命百岁，桃李满天下</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师，希望你永远健康快乐，不再因为头疼而流泪，心想事成，所愿皆如意</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">一位记性不好的老师，一位经常吃药的"药罐子"，一位举止优雅的绅士，一位谈吐文雅的君子，一位一心为学生的教师，一位热爱教师事业的劳动者，一位耐得住头疼的勇士，同时也是一位偷偷哭泣的孩子。您诠释了"毅力"二字，深深地影响了我们，我们知道，您要离开这所学校，对此，我们深感遗憾，但离别从来不是终点，遗忘才是，而您伟大的形象早已烙印在我们心间。现在请接受我们怀以崇高敬意对您说的一句"再见"。\n ——致一位在一线奋斗三十多年的老教师</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">老师感谢您这两年来对我们的细心教导！退休后祝您不再受病痛的折磨、平平安安、健健康康、长命百岁！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-19</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">三尺讲台育芳华，愿您生活如春风般温柔，如晚霞般绚烂。读书品茶、漫步赏景，让每一寸时光都成为值得珍藏的故事。退休快乐，愿岁月善待您的所有期待</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-20</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">一支画笔绘四季，半生耕耘育桃李。 感谢您带我们领略艺术之美，您和蔼可亲，也愿您以后健康常在 愿退休后的日子满是诗意与闲适，常与美好相伴！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-20</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">您是一位和蔼可亲的老师 谢谢您这两年来的教诲 还记得您给我们上的第一节是透视知识 还会带我们到操场进行实践绘画 令我印象十分深刻。而最后一节课你教给我们的是"毅力"二字 向我们诠释了毅力二字的意义 。同时，您还是一位"药罐子"老师 会因为头痛的折磨躲在角落里偷偷哭泣 也愿您退休后不再被头痛折磨 。粉笔染霜华，妙笔传匠心，谢谢您带我们触摸艺术，退休后尽情描绘属于自己的精彩吧！</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-20</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">您用画笔勾勒艺术星河，以耐心启迪美育心灵。如今您光荣退休，愿时光温柔以待，往后的日子如画卷般绚烂多彩，幸福常伴！天天开心，身体健康，我将永远记得您</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-20</span>
+                    </div>
+                </div>
+                <div class="comment-card">
+                    <p class="comment-text">感谢您的教导</p>
+                    <div class="comment-info">
+                        <span>匿名学生 <span class="class-tag">6班</span></span>
+                        <span>2025-06-22</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 初二（5）班 & 初二（6）班 | 色彩永不褪色 - 献给美术老师的特别礼物</p>
+            <p>即使课程结束，您在我们心中绘下的色彩永不褪色</p>
+        </div>
+    </div>
+
+    <div class="music-player">
+        <audio id="bg-music"></audio>
+        <div class="music-controls">
+            <button id="play-btn" class="music-btn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button id="prev-btn" class="music-btn" title="上一首">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button id="next-btn" class="music-btn" title="下一首">
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <button id="mode-btn" class="music-btn" title="播放模式">
+                <i class="fas fa-redo"></i>
+            </button>
+            <div class="progress-container">
+                <span id="current-time">0:00</span>
+                <input type="range" id="progress-bar" value="0" max="100">
+                <span id="duration">0:00</span>
+            </div>
+            <button id="mute-btn" class="music-btn" title="静音">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.3">
+            <button id="playlist-btn" class="music-btn" title="播放列表">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+        
+        <div class="playlist-dropdown" id="playlist-dropdown">
+            <div class="playlist-header">
+                <h4>播放列表</h4>
+                <button id="close-playlist" class="music-btn small">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul id="playlist">
+                <li data-index="0">小行星带概念曲--DM</li>
+                <li data-index="1">寰宇灾劫（撰于己之悼词）--DM</li>
+                <li data-index="2">风暴之前的平静--DM</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const songs = [
+            { name: "小行星带概念曲--DM", file: "music-2.mp3" },
+            { name: "寰宇灾劫（撰于己之悼词）--DM", file: "music.mp3" },
+            { name: "风暴之前的平静--DM", file: "music-3.mp3" }
+        ];
+        
+        const PLAY_MODES = {
+            LOOP: 0,
+            SINGLE: 1,
+            SEQUENTIAL: 2
+        };
+        
+        let currentMode = PLAY_MODES.LOOP;
+        let currentSongIndex = 0;
+        let isDraggingProgress = false;
+        
+        const music = document.getElementById('bg-music');
+        const playBtn = document.getElementById('play-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const modeBtn = document.getElementById('mode-btn');
+        const muteBtn = document.getElementById('mute-btn');
+        const playlistBtn = document.getElementById('playlist-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationEl = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volume-slider');
+        const playlistDropdown = document.getElementById('playlist-dropdown');
+        const playlistEl = document.getElementById('playlist');
+        const closePlaylistBtn = document.getElementById('close-playlist');
+        
+        function initPlayer() {
+            music.volume = 0.7;
+            volumeSlider.value = 0.7;
+            loadSong(currentSongIndex);
+            tryAutoplay();
+        }
+        
+        function renderPlaylist() {
+            playlistEl.innerHTML = '';
+            songs.forEach((song, index) => {
+                const li = document.createElement('li');
+                li.textContent = song.name;
+                li.dataset.index = index;
+                if (index === currentSongIndex) {
+                    li.classList.add('playing');
+                }
+                li.addEventListener('click', () => playSelectedSong(index));
+                playlistEl.appendChild(li);
+            });
+        }
+        
+        function playSelectedSong(index) {
+            currentSongIndex = index;
+            loadSong(index);
+            music.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            renderPlaylist();
+        }
+        
+        function loadSong(index) {
+            const song = songs[index];
+            music.src = song.file;
+            music.load();
+            updateSongInfo();
+        }
+        
+        function updateSongInfo() {
+            document.title = `色彩永不褪色 - 初二（5）班 & 初二（6）班`;
+        }
+        
+        function togglePlayMode() {
+            currentMode = (currentMode + 1) % 3;
+            
+            switch(currentMode) {
+                case PLAY_MODES.LOOP:
+                    modeBtn.innerHTML = '<i class="fas fa-redo"></i><span class="mode-indicator">L</span>';
+                    modeBtn.title = "列表循环";
+                    music.loop = false;
+                    break;
+                case PLAY_MODES.SINGLE:
+                    modeBtn.innerHTML = '<i class="fas fa-redo"></i><span class="mode-indicator">1</span>';
+                    modeBtn.title = "单曲循环";
+                    music.loop = true;
+                    break;
+                case PLAY_MODES.SEQUENTIAL:
+                    modeBtn.innerHTML = '<i class="fas fa-redo"></i><span class="mode-indicator">S</span>';
+                    modeBtn.title = "顺序播放";
+                    music.loop = false;
+                    break;
+            }
+        }
+        
+        function playNext() {
+            if (currentMode === PLAY_MODES.SINGLE) {
+                music.currentTime = 0;
+                music.play();
+                return;
+            }
+            
+            currentSongIndex++;
+            if (currentSongIndex >= songs.length) {
+                if (currentMode === PLAY_MODES.LOOP) {
+                    currentSongIndex = 0;
+                } else {
+                    currentSongIndex = songs.length - 1;
+                    return;
+                }
+            }
+            loadSong(currentSongIndex);
+            music.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            renderPlaylist();
+        }
+        
+        function playPrev() {
+            if (music.currentTime > 3) {
+                music.currentTime = 0;
+                return;
+            }
+            
+            currentSongIndex--;
+            if (currentSongIndex < 0) {
+                currentSongIndex = songs.length - 1;
+            }
+            loadSong(currentSongIndex);
+            music.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            renderPlaylist();
+        }
+        
+        function updateProgress() {
+            if (isDraggingProgress) return;
+            
+            const { currentTime, duration } = music;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.value = progressPercent;
+            
+            currentTimeEl.textContent = formatTime(currentTime);
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        function setProgress() {
+            const progressPercent = progressBar.value;
+            const duration = music.duration;
+            music.currentTime = (progressPercent / 100) * duration;
+        }
+        
+        function tryAutoplay() {
+            const promise = music.play();
+            
+            if (promise !== undefined) {
+                promise.then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }).catch(error => {
+                    console.log('自动播放被阻止:', error);
+                });
+            }
+        }
+        
+        playBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                music.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+        
+        prevBtn.addEventListener('click', playPrev);
+        nextBtn.addEventListener('click', playNext);
+        modeBtn.addEventListener('click', togglePlayMode);
+        
+        muteBtn.addEventListener('click', () => {
+            music.muted = !music.muted;
+            muteBtn.innerHTML = music.muted 
+                ? '<i class="fas fa-volume-mute"></i>' 
+                : '<i class="fas fa-volume-up"></i>';
+        });
+        
+        volumeSlider.addEventListener('input', () => {
+            music.volume = volumeSlider.value;
+            music.muted = false;
+        });
+        
+        playlistBtn.addEventListener('click', () => {
+            playlistDropdown.style.display = playlistDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        closePlaylistBtn.addEventListener('click', () => {
+            playlistDropdown.style.display = 'none';
+        });
+        
+        progressBar.addEventListener('input', () => {
+            isDraggingProgress = true;
+            const progressPercent = progressBar.value;
+            const duration = music.duration || 1;
+            currentTimeEl.textContent = formatTime((progressPercent / 100) * duration);
+        });
+        
+        progressBar.addEventListener('change', () => {
+            isDraggingProgress = false;
+            setProgress();
+        });
+        
+        music.addEventListener('timeupdate', updateProgress);
+        music.addEventListener('ended', playNext);
+        music.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(music.duration);
+        });
+        
+        function updateRealTime() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                weekday: 'long'
+            };
+            document.getElementById('real-time').textContent = now.toLocaleDateString('zh-CN', options);
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (tab.classList.contains('disabled')) {
+                    showNotification('管理员已禁用此功能', 'warning');
+                    return;
+                }
+                
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            updateRealTime();
+            setInterval(updateRealTime, 1000);
+            initPlayer();
+            renderPlaylist();
+        });
+    </script>
+</body>
+</html>
